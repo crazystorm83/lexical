@@ -1,0 +1,12 @@
+# 빌드 결과물
+dist/
+build/
+
+# Node.js 모듈
+node_modules/
+
+# 환경 설정 파일
+
+# 로그 파일
+
+# 기타

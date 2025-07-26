@@ -1,4 +1,7 @@
-class PackageMatadata {
+import fs from "fs-extra";
+import path from "node:path";
+
+export class PackageMatadata {
     /** @type {string} */
     packageJsonPath;
     /** @type {Record<string, any>} */

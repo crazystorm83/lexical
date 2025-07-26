@@ -1,22 +1,24 @@
-const path = require("node:path");
-const fs = require("fs-extra");
+import { glob } from "glob";
+import { PackageMatadata } from "./PackageMatadata.js";
 
 class PackageManager {
-    /** @type {PackageMetadata[]} */
+    /** @type {PackageMatadata[]} */
     packages;
 
     /** @param {string[]} packagePaths */
     constructor(packagePaths) {
-        this.packages = packagePaths.map((path) => new PackageMetadata(path));
+        console.log(packagePaths);
+        this.packages = packagePaths.map((path) => new PackageMatadata(path));
+    }
+
+    getPublicPackages() {
+        return this.packages.filter(pkg => !pkg.isPrivate());
     }
 }
 
-exports.packageManager = new PackageManager(
-    glob.sync(
-        path.resolve(
-            path.dirname(
-                path.dirname(__dirname)),
-                'packages/*/package.json'
-        )
-    )
+const packageManager = new PackageManager(
+    glob.sync('packages/*/package.json')
 );
+
+export { packageManager };
+

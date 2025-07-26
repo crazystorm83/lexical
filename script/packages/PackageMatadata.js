@@ -1,7 +1,4 @@
-const path = require("node:path");
-const fs = require("fs-extra");
-
-class PackageManager {
+class PackageMatadata {
     /** @type {string} */
     packageJsonPath;
     /** @type {Record<string, any>} */
@@ -19,5 +16,9 @@ class PackageManager {
 
     getNpmName() {
         return this.packageJson.name;
+    }
+
+    isPrivate() {
+        return this.packageJson.private || false;
     }
 }

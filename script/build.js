@@ -38,8 +38,6 @@ function rollupOuterOptions(format, outputPath, outputFile, packageName) {
                 file: path.resolve(outputPath, outputFile),
                 format,
                 sourcemap: !isProduction,
-                //third part externals
-                external: (moduleName, src) => thirdPartyExternalsRegExp.test(moduleName),
             };
             break;
         }
@@ -63,7 +61,7 @@ function rollupOuterOptions(format, outputPath, outputFile, packageName) {
 
 /**
  * 
- * @param {PackageMatadata} pkg 
+ * @param {import('./packages/PackageMatadata.js').PackageMatadata} pkg 
  * @returns {Promise<void>}
  */
 async function buildPackage(pkg) { 
@@ -106,7 +104,8 @@ async function buildPackage(pkg) {
         ]
         const inputOptions = {
             input: inputFile,
-            plugins
+            plugins,
+            external: (moduleName, src) => thirdPartyExternalsRegExp.test(moduleName)
         }
         const outputOptions = rollupOuterOptions(format, outputPath, outputFile, packageName);
     

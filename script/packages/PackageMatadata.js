@@ -28,7 +28,7 @@ export class PackageMatadata {
     }
 
     getPackageName() {
-        const parts = this.packageJson.name.toLowerCase().replace(/@/g, '').split(/\//g);
+        const parts = this.packageJson.name.toLowerCase().replace(/@/g, '').split(/[\/\-]/g);
         return parts.join('_');
     }
 
@@ -40,11 +40,12 @@ export class PackageMatadata {
         const name = this.getNpmName();
         const fileName = File.getFileName(name);
         const directoryName = this.getDirectoryName();
+        const packageName = this.getPackageName();
         return {
             name: fileName,
             outputPath: Directory.resolve(directoryName, 'dist'),
             outputFile: `${fileName}.js`,
-            packageName: directoryName,
+            packageName: packageName,
             sourcePath: Directory.resolve(directoryName, 'src'),
             sourceFile: 'index.ts',
             sourcemap: !this.isProduction

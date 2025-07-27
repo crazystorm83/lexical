@@ -1,12 +1,14 @@
 {
-  "name": "core",
+  "name": "nh-react",
   "version": "0.0.1",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "core": "0.0.1"
+  }
 }

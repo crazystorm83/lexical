@@ -9,7 +9,7 @@
     "lint": "eslint 'packages/**/*.{js,ts}' 'script/**/*.{js,ts}'",
     "format": "prettier --write 'packages/**/*.{js,ts,json,md}' 'script/**/*.{js,ts,json,md}'",
     "build:dev": "cross-env NODE_ENV=development rollup -c",
-    "build:prod": "cross-env NODE_ENV=production rollup -c",
+    "build:prod": "node script/build.js --production",
     "build:stage": "cross-env NODE_ENV=stage rollup -c",
     "build:release": "node script/build.js",
     "build": "npm run build:dev",
@@ -36,13 +36,12 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.3",
     "lodash": "^4.17.21",
+    "minimist": "^1.2.8",
     "prettier": "^3.6.2",
     "rollup": "^4.45.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "tslib": "^2.8.1",
-    "typescript-eslint": "^8.37.0"
-  },
-  "dependencies": {
+    "typescript-eslint": "^8.37.0",
     "fs-extra": "^11.3.0",
     "glob": "^11.0.3"
   }

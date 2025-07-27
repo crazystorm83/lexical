@@ -1,6 +1,10 @@
 import { glob } from "glob";
 import { PackageMatadata } from "./PackageMatadata.js";
 
+const env = process.env.NODE_ENV || 'development';
+const isProduction = env === 'production' || env === 'stage';
+const isDevelopment = !isProduction;
+
 class PackageManager {
     /** @type {PackageMatadata[]} */
     packages;
@@ -8,7 +12,7 @@ class PackageManager {
     /** @param {string[]} packagePaths */
     constructor(packagePaths) {
         console.log(packagePaths);
-        this.packages = packagePaths.map((path) => new PackageMatadata(path));
+        this.packages = packagePaths.map((path) => new PackageMatadata(path, isProduction));
     }
 
     getPublicPackages() {

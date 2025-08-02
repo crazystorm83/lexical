@@ -1,0 +1,1 @@
+export { HTMLDecimal } from './HTMLDecimal';

@@ -19,6 +19,14 @@ export class PackageMatadata {
         this.packageJson = fs.readJsonSync(packageJsonPath);
     }
 
+    /**
+     * @param {...string} paths to resolve in this package's directory
+     * @returns {string} Resolve a path in this package's directory
+     */
+    resolve(...paths) {
+      return path.resolve(path.dirname(this.packageJsonPath), ...paths);
+    }
+
     getDirectoryName() {
         return path.dirname(this.packageJsonPath);
     }
@@ -43,6 +51,7 @@ export class PackageMatadata {
         const packageName = this.getPackageName();
         return {
             name: fileName,
+            outputPathForDeclaration: Directory.resolve(directoryName, 'types'),
             outputPath: Directory.resolve(directoryName, 'dist'),
             outputFile: `${fileName}.js`,
             packageName: packageName,

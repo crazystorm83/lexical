@@ -10,10 +10,7 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "paths": {
-      "black-box": ["./packages/00.black-box/src/index.ts"]
-    }
+    "skipLibCheck": true
   },
   "include": ["packages/*/src/**/*"],
   "exclude": [
@@ -21,9 +18,7 @@
     "**/__tests__/**",
     "**/dist/**",
     "**/npm/**",
-    "**/node_modules/**",
-    "./packages/lexical-devtools/**",
-    "./packages/lexical-playground/**"
+    "**/node_modules/**"
   ],
   "extends": "./tsconfig.json"
 }

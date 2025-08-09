@@ -1,15 +1,15 @@
 {
-  "name": "nh-list",
-  "version": "0.0.1",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@black-box": "0.0.1",
-    "@nh-react": "0.0.1"
-  }
+    "name": "nh-list",
+    "version": "0.0.1",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "@black-box": "0.0.1",
+        "@nh-react": "0.0.1"
+    }
 }

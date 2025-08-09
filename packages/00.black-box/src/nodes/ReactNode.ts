@@ -1,11 +1,11 @@
-import { JSX } from "react";
-import { BlockBoxNode } from "../system/nodes/BlockBoxNode";
+import { JSX } from 'react';
+import { BlockBoxNode } from '../system/nodes/BlockBoxNode';
 
 /**
  * @class ReactNode
  * @description React 를 기반으로 하는 노드의 최상위 클래스
  */
-export class ReactNode extends BlockBoxNode {
+export abstract class ReactNode extends BlockBoxNode {
     decorate(): JSX.Element {
         throw new Error('Not implemented');
     }

@@ -3,7 +3,6 @@
   "compilerOptions": {
     "baseUrl": "../../",
     "paths": {
-      "@/*": ["./packages/*"],
       "@black-box": ["./packages/00.black-box/src/index.ts"],
       "@nh-html": ["./packages/10.nh-html/src/index.ts"],
       "@nh-react": ["./packages/10.nh-react/src/index.ts"]

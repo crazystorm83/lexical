@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo } from 'react';
 
 interface IReactButtonAtomProps {
     children: React.ReactNode;
@@ -6,9 +6,5 @@ interface IReactButtonAtomProps {
 }
 
 export const ReactButtonAtom = memo((props: IReactButtonAtomProps) => {
-    return (
-        <button onClick={props.onClick}>
-            {props.children}
-        </button>
-    );
+    return <button onClick={props.onClick}>{props.children}</button>;
 });

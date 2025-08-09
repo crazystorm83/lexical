@@ -4,5 +4,4 @@ import { Registry } from '@black-box';
  * @class PluginProvider
  * @description 플러그인 관리 클래스
  */
-export class PluginProvider extends Registry {
-}
+export class PluginProvider extends Registry {}

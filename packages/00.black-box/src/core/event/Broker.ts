@@ -1,2 +1,1 @@
-export class Broker {
-}
+export class Broker {}

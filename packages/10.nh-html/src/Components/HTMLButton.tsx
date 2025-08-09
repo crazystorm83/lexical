@@ -3,12 +3,10 @@
  * @description HTMLButton 컴포넌트
  */
 
-import { HTMLElementNode } from "@black-box";
+import { HTMLElementNode } from '@black-box';
 
 interface IHTMLButtonProps {
     onClick: (e: any) => void;
 }
 
-export class HTMLButton extends HTMLElementNode {
-    
-}
+export class HTMLButton extends HTMLElementNode {}

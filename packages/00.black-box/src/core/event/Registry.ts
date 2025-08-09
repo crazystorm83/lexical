@@ -14,10 +14,10 @@ export class Registry implements IRegistry {
     private __listeners: Record<string, Function[]> = {};
 
     /**
-     * 
-     * @param event 
-     * @param listener 
-     * @returns 
+     *
+     * @param event
+     * @param listener
+     * @returns
      */
     public add(event: string, listener: Function): () => void {
         if (!this.__listeners[event]) {
@@ -27,12 +27,12 @@ export class Registry implements IRegistry {
 
         return () => {
             this.remove(event, listener);
-        }
+        };
     }
 
     public remove(event: string, listener?: Function): void {
         if (listener) {
-            this.__listeners[event] = this.__listeners[event].filter(x => x !== listener);
+            this.__listeners[event] = this.__listeners[event].filter((x) => x !== listener);
         } else {
             delete this.__listeners[event];
         }
@@ -49,7 +49,7 @@ export class Registry implements IRegistry {
         if (!this.__listeners[event]) {
             return;
         }
-        this.__listeners[event].forEach(listener => listener(...args));
+        this.__listeners[event].forEach((listener) => listener(...args));
     }
 
     public async emitAsync(event: string, ...args: any[]): Promise<void> {

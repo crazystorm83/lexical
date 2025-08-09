@@ -12,16 +12,14 @@ import typescript from '@rollup/plugin-typescript';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 
 import { exec } from 'child-process-promise';
-import { packageManager } from "./packages/PackageManager.js";
-import { File } from "./stream/File.js";
+import { packageManager } from './packages/PackageManager.js';
+import { File } from './stream/File.js';
 
 const args = minimist(process.argv.slice(2));
 const isProduction = args.production || false;
 
 const thirdPartyExternals = ['react', 'react-dom', 'lodash', 'jquery', 'yjs', 'y-websocket'];
-const thirdPartyExternalsRegExp = new RegExp(
-  `^(${thirdPartyExternals.join('|')})(\\/|$)`,
-);
+const thirdPartyExternalsRegExp = new RegExp(`^(${thirdPartyExternals.join('|')})(\\/|$)`);
 
 /**
  *
@@ -50,7 +48,7 @@ async function buildTSDeclarationFiles() {
                 moduleResolution: 'Bundler',
                 skipLibCheck: true,
             },
-            include: ['src/**/*']
+            include: ['src/**/*'],
         };
 
         fs.writeJsonSync(tmpTsconfigPath, tempConfig, { spaces: 2 });
@@ -63,68 +61,72 @@ async function buildTSDeclarationFiles() {
     }
 }
 
-  /**
-   *
-   * @param {string} packageName
-   * @param {string} outputPath
-   * @param {string} outputFile
-   * @param {string} packageName
-   * @returns {Object}
-   */
+/**
+ *
+ * @param {string} packageName
+ * @param {string} outputPath
+ * @param {string} outputFile
+ * @param {string} packageName
+ * @returns {Object}
+ */
 function rollupInputOptions(inputFile, extensions, pkg) {
     const pkgDir = path.dirname(pkg.packageJsonPath);
     const pkgTsconfigPath = path.resolve(pkgDir, 'tsconfig.json');
-    const tsconfigPath = fs.existsSync(pkgTsconfigPath) ? pkgTsconfigPath : path.resolve('tsconfig.json');
+    const tsconfigPath = fs.existsSync(pkgTsconfigPath)
+        ? pkgTsconfigPath
+        : path.resolve('tsconfig.json');
 
     const plugins = [
         peerDepsExternal(),
         alias({
             entries: [
-                { find: '@black-box', replacement: path.resolve('packages/00.black-box/src/index.ts') },
+                {
+                    find: '@black-box',
+                    replacement: path.resolve('packages/00.black-box/src/index.ts'),
+                },
                 { find: '@nh-html', replacement: path.resolve('packages/10.nh-html/src/index.ts') },
-                { find: '@nh-react', replacement: path.resolve('packages/10.nh-react/src/index.ts') },
-            ]
+                {
+                    find: '@nh-react',
+                    replacement: path.resolve('packages/10.nh-react/src/index.ts'),
+                },
+            ],
         }),
         resolve(),
         commonjs(),
-        babel({ 
+        babel({
             babelHelpers: 'bundled',
-            presets: [
-                '@babel/preset-env',
-                '@babel/preset-typescript',
-                '@babel/preset-react'
-            ],
+            presets: ['@babel/preset-env', '@babel/preset-typescript', '@babel/preset-react'],
             extensions,
-            exclude: 'node_modules/**'
+            exclude: 'node_modules/**',
         }),
         typescript({
             tsconfig: tsconfigPath,
             outDir: undefined,
-            declaration: false
+            declaration: false,
         }),
-        ...(isProduction ? [terser()] : [])
-    ]
+        ...(isProduction ? [terser()] : []),
+    ];
 
     return {
         input: inputFile,
         plugins,
-        external: (moduleName, src) => thirdPartyExternalsRegExp.test(moduleName)
-    }
+        external: (moduleName, src) => thirdPartyExternalsRegExp.test(moduleName),
+    };
 }
 
 /**
- * 
+ *
  * @private
- * @param {'cjs' | 'esm' | 'umd' | 'iife'} format 
- * @param {string} outputPath 
- * @param {string} outputFile 
- * @param {string} packageName 
+ * @param {'cjs' | 'esm' | 'umd' | 'iife'} format
+ * @param {string} outputPath
+ * @param {string} outputFile
+ * @param {string} packageName
  * @returns {Object}
  */
 function rollupOuterOptions(format, outputPath, outputFile, packageName) {
     let outputOptions = {};
     switch (format) {
-        case 'cjs': 
+        case 'cjs':
         case 'esm': {
             outputOptions = {
                 file: path.resolve(outputPath, outputFile),
@@ -140,7 +142,7 @@ function rollupOuterOptions(format, outputPath, outputFile, packageName) {
                 file: path.resolve(outputPath, outputFile),
                 format,
                 sourcemap: !isProduction,
-                name: packageName
+                name: packageName,
             };
             break;
         }
@@ -152,14 +154,13 @@ function rollupOuterOptions(format, outputPath, outputFile, packageName) {
 }
 
 /**
- * 
- * @param {import('./packages/PackageMatadata.js').PackageMatadata} pkg 
+ *
+ * @param {import('./packages/PackageMatadata.js').PackageMatadata} pkg
  * @returns {Promise<void>}
  */
-async function buildPackage(pkg) { 
+async function buildPackage(pkg) {
     const formats = ['cjs', 'esm', 'umd', 'iife'];
     const extensions = ['js', 'jsx', 'ts', 'tsx'];
-
 
     try {
         const npmName = pkg.getNpmName();
@@ -174,12 +175,12 @@ async function buildPackage(pkg) {
         const outputPath = buildDefinition.outputPath;
         const outputPathForDeclaration = buildDefinition.outputPathForDeclaration;
 
-        for (const format of formats) {    
+        for (const format of formats) {
             const outputFile = `${packageName}.${format}.js`;
 
             const inputOptions = rollupInputOptions(inputFile, extensions, pkg);
             const outputOptions = rollupOuterOptions(format, outputPath, outputFile, packageName);
-        
+
             await rollup(inputOptions).then(async (bundle) => {
                 await bundle.write(outputOptions);
             });
@@ -187,8 +188,7 @@ async function buildPackage(pkg) {
 
         //copy declaration files
         moveTSDeclarationFilesIntoDist(packageName, outputPathForDeclaration, pkg.packageJsonPath);
-    } catch (error) {
-    }
+    } catch (error) {}
 }
 
 async function buildAll() {

@@ -1,8 +1,8 @@
-import fs from "fs-extra";
-import path from "node:path";
+import fs from 'fs-extra';
+import path from 'node:path';
 
-import { Directory } from "../stream/Directory.js";
-import { File } from "../stream/File.js";
+import { Directory } from '../stream/Directory.js';
+import { File } from '../stream/File.js';
 
 export class PackageMatadata {
     /** @type {string} */
@@ -24,7 +24,7 @@ export class PackageMatadata {
      * @returns {string} Resolve a path in this package's directory
      */
     resolve(...paths) {
-      return path.resolve(path.dirname(this.packageJsonPath), ...paths);
+        return path.resolve(path.dirname(this.packageJsonPath), ...paths);
     }
 
     getDirectoryName() {
@@ -36,7 +36,10 @@ export class PackageMatadata {
     }
 
     getPackageName() {
-        const parts = this.packageJson.name.toLowerCase().replace(/@/g, '').split(/[\/\-]/g);
+        const parts = this.packageJson.name
+            .toLowerCase()
+            .replace(/@/g, '')
+            .split(/[\/\-]/g);
         return parts.join('_');
     }
 
@@ -57,7 +60,7 @@ export class PackageMatadata {
             packageName: packageName,
             sourcePath: Directory.resolve(directoryName, 'src'),
             sourceFile: 'index.ts',
-            sourcemap: !this.isProduction
-        }
+            sourcemap: !this.isProduction,
+        };
     }
 }

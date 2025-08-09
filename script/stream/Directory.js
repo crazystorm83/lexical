@@ -3,8 +3,8 @@ import path from 'path';
 
 export class Directory {
     /**
-     * 
-     * @param {string} path 
+     *
+     * @param {string} path
      * @returns {boolean}
      */
     static exists(path) {
@@ -12,9 +12,9 @@ export class Directory {
     }
 
     /**
-     * 
-     * @param {string} directory 
-     * @param  {...string} paths 
+     *
+     * @param {string} directory
+     * @param  {...string} paths
      * @returns {string}
      */
     static resolve(directory, ...paths) {

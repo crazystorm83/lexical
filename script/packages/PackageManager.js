@@ -1,5 +1,5 @@
-import { glob } from "glob";
-import { PackageMatadata } from "./PackageMatadata.js";
+import { glob } from 'glob';
+import { PackageMatadata } from './PackageMatadata.js';
 
 const env = process.env.NODE_ENV || 'development';
 const isProduction = env === 'production' || env === 'stage';
@@ -16,13 +16,10 @@ class PackageManager {
     }
 
     getPublicPackages() {
-        return this.packages.filter(pkg => !pkg.isPrivate());
+        return this.packages.filter((pkg) => !pkg.isPrivate());
     }
 }
 
-const packageManager = new PackageManager(
-    glob.sync('packages/*/package.json')
-);
+const packageManager = new PackageManager(glob.sync('packages/*/package.json'));
 
 export { packageManager };
-

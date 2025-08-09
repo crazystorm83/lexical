@@ -1,14 +1,14 @@
-import React, { memo } from "react";
+/**
+ * @class HTMLButton
+ * @description HTMLButton 컴포넌트
+ */
+
+import { HTMLElementNode } from "@black-box";
 
 interface IHTMLButtonProps {
-    children: React.ReactNode;
-    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    onClick: (e: any) => void;
 }
 
-export const HTMLButton = memo((props: IHTMLButtonProps) => {
-    return (
-        <button onClick={props.onClick}>
-            {props.children}
-        </button>
-    );
-});
+export class HTMLButton extends HTMLElementNode {
+    
+}

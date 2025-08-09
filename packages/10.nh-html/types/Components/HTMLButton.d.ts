@@ -1,7 +1,7 @@
-import React from "react";
-interface IHTMLButtonProps {
-    children: React.ReactNode;
-    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+/**
+ * @class HTMLButton
+ * @description HTMLButton 컴포넌트
+ */
+import { HTMLElementNode } from "@black-box";
+export declare class HTMLButton extends HTMLElementNode {
 }
-export declare const HTMLButton: React.MemoExoticComponent<(props: IHTMLButtonProps) => import("react/jsx-runtime").JSX.Element>;
-export {};

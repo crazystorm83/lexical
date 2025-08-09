@@ -9,6 +9,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "core": "0.0.1"
+    "@black-box": "0.0.1",
+    "@nh-react": "0.0.1"
   }
 }

@@ -3,6 +3,7 @@ import minimist from 'minimist';
 import path from 'path';
 import { rollup } from 'rollup';
 
+import alias from '@rollup/plugin-alias';
 import { babel } from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
@@ -26,34 +27,63 @@ const thirdPartyExternalsRegExp = new RegExp(
  *
  */
 async function buildTSDeclarationFiles() {
-    await exec('npx tsc -p ./tsconfig.build.json');
+    const publicPackages = packageManager.getPublicPackages();
+
+    for (const pkg of publicPackages) {
+        const pkgDir = path.dirname(pkg.packageJsonPath);
+        const pkgTsconfigPath = path.resolve(pkgDir, 'tsconfig.json');
+        const tmpTsconfigPath = path.resolve(pkgDir, '.tsbuild.temp.json');
+        const relRoot = path.relative(pkgDir, process.cwd()) || '.';
+        const outDir = path.resolve(process.cwd(), '.ts-temp', path.basename(pkgDir));
+
+        const hasLocalTsconfig = fs.existsSync(pkgTsconfigPath);
+
+        const tempConfig = {
+            extends: hasLocalTsconfig ? './tsconfig.json' : path.join(relRoot, 'tsconfig.json'),
+            compilerOptions: {
+                noEmit: false,
+                declaration: true,
+                emitDeclarationOnly: true,
+                declarationDir: outDir,
+                outDir: outDir,
+                jsx: 'react-jsx',
+                moduleResolution: 'Bundler',
+                skipLibCheck: true,
+            },
+            include: ['src/**/*']
+        };
+
+        fs.writeJsonSync(tmpTsconfigPath, tempConfig, { spaces: 2 });
+
+        try {
+            await exec(`npx tsc -p ${tmpTsconfigPath}`);
+        } finally {
+            fs.removeSync(tmpTsconfigPath);
+        }
+    }
 }
 
   /**
    *
    * @param {string} packageName
    * @param {string} outputPath
+   * @param {string} outputFile
+   * @param {string} packageName
+   * @returns {Object}
    */
-function moveTSDeclarationFilesIntoDist(packageName, outputPath, originalPackagePath) {
-    try {
-        // Extract the original directory name from the package path
-        const originalDirName = path.basename(path.dirname(originalPackagePath));
-        const sourcePath = `./.ts-temp/${originalDirName}/src`;
-        
-        if (fs.existsSync(sourcePath)) {
-            fs.copySync(sourcePath, outputPath);
-            console.log(`Declaration files copied for ${packageName} from ${sourcePath}`);
-        } else {
-            console.log(`No declaration files found for ${packageName} at ${sourcePath}`);
-        }
-    } catch (error) {
-        console.log(`Error copying declaration files for ${packageName}:`, error.message);
-    }
-}
+function rollupInputOptions(inputFile, extensions, pkg) {
+    const pkgDir = path.dirname(pkg.packageJsonPath);
+    const pkgTsconfigPath = path.resolve(pkgDir, 'tsconfig.json');
+    const tsconfigPath = fs.existsSync(pkgTsconfigPath) ? pkgTsconfigPath : path.resolve('tsconfig.json');
 
-function rollupInputOptions(inputFile, extensions) {
     const plugins = [
         peerDepsExternal(),
+        alias({
+            entries: [
+                { find: '@black-box', replacement: path.resolve('packages/00.black-box/src/index.ts') },
+                { find: '@nh-react', replacement: path.resolve('packages/11.nh-react/src/index.ts') },
+            ]
+        }),
         resolve(),
         commonjs(),
         babel({ 
@@ -67,6 +97,7 @@ function rollupInputOptions(inputFile, extensions) {
             exclude: 'node_modules/**'
         }),
         typescript({
+            tsconfig: tsconfigPath,
             outDir: undefined,
             declaration: false
         }),
@@ -145,7 +176,7 @@ async function buildPackage(pkg) {
         for (const format of formats) {    
             const outputFile = `${packageName}.${format}.js`;
 
-            const inputOptions = rollupInputOptions(inputFile, extensions);
+            const inputOptions = rollupInputOptions(inputFile, extensions, pkg);
             const outputOptions = rollupOuterOptions(format, outputPath, outputFile, packageName);
         
             await rollup(inputOptions).then(async (bundle) => {

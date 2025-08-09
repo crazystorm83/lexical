@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../../",
+    "paths": {
+      "@/*": ["./packages/*"],
+      "@black-box": ["./packages/00.black-box/src/index.ts"],
+      "@nh-react": ["./packages/11.nh-react/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*", "../../packages/11.nh-react/src/**/*"]
+}

@@ -1,4 +1,4 @@
-import { Registry } from "../../core/event";
+import { Registry } from '@black-box';
 
 /**
  * @class PluginProvider

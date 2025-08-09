@@ -15,7 +15,7 @@
     "build:prod": "node script/build.js --production",
     "build:stage": "cross-env NODE_ENV=stage rollup -c",
     "build:release": "node script/build.js",
-    "build": "npm run build:dev",
+    "build": "node script/build.js",
     "test": "jest",
     "test:e2e": "playwright test"
   },

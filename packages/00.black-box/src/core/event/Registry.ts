@@ -38,6 +38,21 @@ export class Registry implements IRegistry {
         }
     }
 
+    public has(event: string): boolean {
+        return this.__listeners[event] !== undefined;
+    }
+
+    public get(event: string): Function[] {
+        return this.__listeners[event] || [];
+    }
+
+    public once(event: string, listener: Function): void {
+        if (this.has(event)) {
+            return;
+        }
+        this.add(event, listener);
+    }
+
     public sort(event: string, sort: (a: Function, b: Function) => number): void {
         if (!this.__listeners[event]) {
             return;

@@ -1,1 +1,1 @@
-export { HTMLDecimal } from './HTMLDecimal';
+export { HtmlDecimal } from './HtmlDecimal';

@@ -1,6 +1,6 @@
-import { HTMLElementNode } from '@black-box';
+import { HtmlElementNode } from '@black-box';
 
-export class Grid extends HTMLElementNode {
+export class Grid extends HtmlElementNode {
     constructor() {
         super();
     }

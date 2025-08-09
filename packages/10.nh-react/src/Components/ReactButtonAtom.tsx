@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 
 interface IReactButtonAtomProps {
     children: React.ReactNode;
-    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    onClick: (e: React.MouseEvent<HtmlButtonElement>) => void;
 }
 
 export const ReactButtonAtom = memo((props: IReactButtonAtomProps) => {

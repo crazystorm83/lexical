@@ -8,7 +8,7 @@
   "scripts": {
     "create:package": "npm create",
     "clean": "node script/clean.js",
-    "lint": "eslint 'packages/**/*.{js,ts,tsx}' 'script/**/*.{js,ts,tsx}'",
+    "lint": "eslint packages --ext .ts,.tsx",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,md}\" \"script/**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"packages/**/*.{ts,tsx,js,jsx,json,md}\" \"script/**/*.{ts,tsx,js,jsx,json,md}\"",
     "build:dev": "cross-env NODE_ENV=development rollup -c",
@@ -40,6 +40,7 @@
     "eslint-import-resolver-node": "^0.3.9",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.3",
+    "eslint-plugin-unicorn": "^60.0.0",
     "fs-extra": "^11.3.0",
     "glob": "^11.0.3",
     "lodash": "^4.17.21",

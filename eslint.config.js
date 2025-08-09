@@ -1,46 +1,58 @@
-module.exports = {
-  root: true,
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'prettier', 'import'],
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:import/recommended', 'plugin:prettier/recommended', 'plugin:storybook/recommended'],
-  rules: {
-    // 필요에 따라 규칙 추가
+// eslint.config.js (Flat Config, ESM)
+import unicorn from 'eslint-plugin-unicorn';
+import tseslint from 'typescript-eslint';
 
-    // Possible Problems 
-    'constructor-super': 'on',
+export default tseslint.config(
+    // 무시 경로 (.eslintignore 대체)
+    {
+        ignores: [
+            '**/node_modules/**',
+            '**/dist/**',
+            '**/build/**',
+            '**/.storybook/**',
+            '**/*.js',
+            '**/*.d.ts',
+            '**/*.config.ts',
+        ],
+    },
 
-    'for-direction': 'on',
-    'getter-return': 'on',
+    // TS 권장 규칙
+    ...tseslint.configs.recommended,
 
-    'no-cond-assign': 'on',
-    'no-cond-assign': 'on',
-    'no-constant-binary-expression': 'on',
-    'no-constant-condition': 'on',
-    'no-constructor-return': 'on',
-    'no-dupe-class-members': 'on',
-    'no-dupe-else-if': 'on',
-    'no-dupe-keys': 'on',
-    'no-duplicate-case': 'on',
-    'no-duplicate-imports': 'on',
-    'no-ex-assign': 'on',
-    'no-fallthrough': 'on',
-    'no-func-assign': 'on',
-    'no-import-assign': 'on',
-    'no-inner-declarations': 'on',
-    'no-self-assign': 'on',
-    'no-self-compare': 'on',
-    'no-setter-return': 'on',
-    'no-this-before-super': 'on',
-    'no-unsafe-negation': 'on',
-    'no-unsafe-optional-chaining': 'on',
-    'no-unused-private-class-members': 'on',
-    'no-unused-vars': 'on',
-    'no-use-before-define': 'on',
-    'require-atomic-updates': 'on',
-    'use-isnan': 'on',
-    'valid-typeof': 'on',
+    // 플러그인 및 규칙
+    {
+        plugins: { unicorn },
+        rules: {
+            // 파일명은 PascalCase로 강제
+            'unicorn/filename-case': [
+                'error',
+                {
+                    cases: { pascalCase: true },
+                },
+            ],
 
-    // Suggestions
-    'block-scoped-var': 'on',
-  }
-}; 
+            // 클래스명은 PascalCase로 강제
+            '@typescript-eslint/naming-convention': [
+                'error',
+                { selector: 'class', format: ['PascalCase'] },
+            ],
+        },
+    },
+
+    // 예외: index.* 파일은 파일명 규칙 제외
+    {
+        files: ['**/index.*'],
+        rules: {
+            'unicorn/filename-case': 'off',
+        },
+    },
+
+    // 예외: 패키지 소스에서 any/Function 관련 규칙 완화
+    {
+        files: ['packages/**/*.{ts,tsx}'],
+        rules: {
+            '@typescript-eslint/no-unsafe-function-type': 'off',
+            '@typescript-eslint/no-explicit-any': 'off',
+        },
+    }
+);

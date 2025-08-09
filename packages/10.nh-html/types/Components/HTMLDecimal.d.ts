@@ -1,1 +1,1 @@
-export declare function HTMLDecimal(): import("react/jsx-runtime").JSX.Element;
+export declare function HtmlDecimal(): import("react/jsx-runtime").JSX.Element;

@@ -1,7 +1,7 @@
 /**
- * @class HTMLButton
- * @description HTMLButton 컴포넌트
+ * @class HtmlButton
+ * @description HtmlButton 컴포넌트
  */
-import { HTMLElementNode } from "@black-box";
-export declare class HTMLButton extends HTMLElementNode {
+import { HtmlElementNode } from "@black-box";
+export declare class HtmlButton extends HtmlElementNode {
 }

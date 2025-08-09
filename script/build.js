@@ -81,7 +81,8 @@ function rollupInputOptions(inputFile, extensions, pkg) {
         alias({
             entries: [
                 { find: '@black-box', replacement: path.resolve('packages/00.black-box/src/index.ts') },
-                { find: '@nh-react', replacement: path.resolve('packages/11.nh-react/src/index.ts') },
+                { find: '@nh-html', replacement: path.resolve('packages/10.nh-html/src/index.ts') },
+                { find: '@nh-react', replacement: path.resolve('packages/10.nh-react/src/index.ts') },
             ]
         }),
         resolve(),

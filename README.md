@@ -29,7 +29,7 @@
     - [개발 빌드](#개발-빌드)
     - [릴리즈 빌드](#릴리즈-빌드)
 
-# 네이밍룰
+# ✅ 네이밍룰
 
 ## 일반적인 경우
 
@@ -111,7 +111,7 @@ class GridClass {}
 
 - [함수명 규칙1 과 동일](#함수명-규칙1)
 
-# ESLint 실행
+# ✅ ESLint 실행
 
 - 명령어
 
@@ -119,7 +119,7 @@ class GridClass {}
 npm run eslint
 ```
 
-# Prettier
+# ✅ Prettier
 
 - 체크 명령어
 
@@ -133,7 +133,7 @@ npm run format:check
 npm run format
 ```
 
-# 빌드
+# ✅ 빌드
 
 ## 개발 빌드
 
